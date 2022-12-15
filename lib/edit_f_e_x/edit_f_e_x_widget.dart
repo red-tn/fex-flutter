@@ -1,13 +1,11 @@
 import '../backend/api_requests/api_calls.dart';
-import '../flutter_flow/flutter_flow_google_map.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../inventory_page/inventory_page_widget.dart';
-import '../reboot_conf_page/reboot_conf_page_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class EditFEXWidget extends StatefulWidget {
   const EditFEXWidget({
@@ -27,12 +25,19 @@ class EditFEXWidget extends StatefulWidget {
 
 class _EditFEXWidgetState extends State<EditFEXWidget> {
   ApiCallResponse? apiResultt44;
-  LatLng? googleMapsCenter;
-  final googleMapsController = Completer<GoogleMapController>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return FutureBuilder<ApiCallResponse>(
       future: GetDeviceCall.call(
         sn: widget.fexSN,
@@ -54,7 +59,6 @@ class _EditFEXWidgetState extends State<EditFEXWidget> {
         final editFEXGetDeviceResponse = snapshot.data!;
         return Scaffold(
           key: scaffoldKey,
-          resizeToAvoidBottomInset: false,
           backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
           body: Stack(
             children: [
@@ -62,74 +66,71 @@ class _EditFEXWidgetState extends State<EditFEXWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 15),
                 child: InkWell(
                   onTap: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditFEXWidget(
-                          fexSN: widget.fexSN,
-                          token: widget.token,
+                    context.pushNamed(
+                      'editFEX',
+                      queryParams: {
+                        'fexSN': serializeParam(
+                          widget.fexSN,
+                          ParamType.String,
                         ),
-                      ),
+                        'token': serializeParam(
+                          widget.token,
+                          ParamType.String,
+                        ),
+                      }.withoutNulls,
                     );
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 108,
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 24, 1, 0),
-                                child: Row(
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 108,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                          ),
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    InkWell(
-                                      onTap: () async {
-                                        await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                InventoryPageWidget(
-                                              token: widget.token,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Icon(
-                                        Icons.arrow_back_ios,
-                                        color: Colors.black,
-                                        size: 24,
-                                      ),
-                                    ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 16, 0, 0),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.75,
-                                        height: 50,
-                                        constraints: BoxConstraints(
-                                          maxWidth:
-                                              MediaQuery.of(context).size.width,
-                                          maxHeight: 200,
+                                          0, 25, 0, 0),
+                                      child: InkWell(
+                                        onTap: () async {
+                                          context.pushNamed(
+                                            'inventoryPage',
+                                            queryParams: {
+                                              'token': serializeParam(
+                                                widget.token,
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                          );
+                                        },
+                                        child: Icon(
+                                          Icons.arrow_back_ios,
+                                          color: Colors.black,
+                                          size: 24,
                                         ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
                                         decoration: BoxDecoration(
                                           color: Colors.transparent,
                                           image: DecorationImage(
-                                            fit: BoxFit.fill,
+                                            fit: BoxFit.fitWidth,
                                             image: CachedNetworkImageProvider(
-                                              'http://pinelandscc.co.za/wp-content/uploads/2010/07/fortinetlogo.png',
+                                              '',
                                             ),
                                           ),
                                           borderRadius:
@@ -137,9 +138,116 @@ class _EditFEXWidgetState extends State<EditFEXWidget> {
                                           border: Border.all(
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryBackground,
-                                            width: 2,
                                           ),
                                         ),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 25, 0, 0),
+                                          child: Image.network(
+                                            'http://pinelandscc.co.za/wp-content/uploads/2010/07/fortinetlogo.png',
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 5, 0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.network(
+                                  'https://www.fortinet.com/content/dam/fortinet/images/products/hero-product/hero-fortiextender.png',
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 2, 0, 2),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment:
+                                          AlignmentDirectional(-0.45, -0.86),
+                                      child: Text(
+                                        'Serial:',
+                                        textAlign: TextAlign.start,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Outfit',
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 2, 0, 2),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment:
+                                          AlignmentDirectional(-0.45, -0.59),
+                                      child: Text(
+                                        'Status: ',
+                                        textAlign: TextAlign.start,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Outfit',
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 2, 0, 2),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment:
+                                          AlignmentDirectional(-0.45, -0.3),
+                                      child: Text(
+                                        'Model: ',
+                                        textAlign: TextAlign.start,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Outfit',
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                       ),
                                     ),
                                   ],
@@ -147,257 +255,156 @@ class _EditFEXWidgetState extends State<EditFEXWidget> {
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(25, 25, 25, 25),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 0, 5, 0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Image.network(
-                                    'https://www.fortinet.com/content/dam/fortinet/images/products/hero-product/hero-fortiextender.png',
-                                    width: 80,
-                                    height: 80,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ],
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 2, 0, 2),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment:
+                                          AlignmentDirectional(0.17, -0.85),
+                                      child: Text(
+                                        widget.fexSN!,
+                                        textAlign: TextAlign.start,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 2, 0, 2),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Align(
-                                        alignment:
-                                            AlignmentDirectional(-0.45, -0.86),
-                                        child: Text(
-                                          'Serial:',
-                                          textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1
-                                              .override(
-                                                fontFamily: 'Outfit',
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 2, 0, 2),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Align(
-                                        alignment:
-                                            AlignmentDirectional(-0.45, -0.59),
-                                        child: Text(
-                                          'Status: ',
-                                          textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1
-                                              .override(
-                                                fontFamily: 'Outfit',
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 2, 0, 2),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Align(
-                                        alignment:
-                                            AlignmentDirectional(-0.45, -0.3),
-                                        child: Text(
-                                          'Model: ',
-                                          textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1
-                                              .override(
-                                                fontFamily: 'Outfit',
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 2, 0, 2),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Align(
-                                        alignment:
-                                            AlignmentDirectional(0.17, -0.85),
-                                        child: Text(
-                                          widget.fexSN!,
-                                          textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 2, 0, 2),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5, 0, 0, 0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            if (GetDeviceCall.status(
-                                                  editFEXGetDeviceResponse
-                                                      .jsonBody,
-                                                ) ==
-                                                'online')
-                                              Align(
-                                                alignment: AlignmentDirectional(
-                                                    -0.2, -0.58),
-                                                child: Image.network(
-                                                  'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fclipground.com%2Fimages%2Fgreen-check-mark-clipart-8.png&f=1&nofb=1&ipt=40a2473ca92d349321b8d868f7eb7afff88b202663da791605775961419a7182&ipo=images',
-                                                  width: 20,
-                                                  height: 20,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            if (GetDeviceCall.status(
-                                                  editFEXGetDeviceResponse
-                                                      .jsonBody,
-                                                ) ==
-                                                'offline')
-                                              Align(
-                                                alignment: AlignmentDirectional(
-                                                    -0.2, -0.58),
-                                                child: Image.network(
-                                                  'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fsweetclipart.com%2Fmultisite%2Fsweetclipart%2Ffiles%2Fx_mark_red_circle.png&f=1&nofb=1&ipt=954a6c5fbe995403917ad3ebb5725d2917a4c2f2d14b7c3175c68e2fb65e3af0&ipo=images',
-                                                  width: 20,
-                                                  height: 20,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            1, 0, 0, 0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Align(
-                                              alignment: AlignmentDirectional(
-                                                  0.09, -0.58),
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(10, 0, 0, 0),
-                                                child: Text(
-                                                  'Carrier: ',
-                                                  textAlign: TextAlign.start,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily: 'Outfit',
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Column(
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 2, 0, 2),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          5, 0, 0, 0),
+                                      child: Column(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
-                                          if (getJsonField(
+                                          if (GetDeviceCall.status(
                                                 editFEXGetDeviceResponse
                                                     .jsonBody,
-                                                r'''$.payload.ip''',
-                                              ) !=
-                                              null)
+                                              ) ==
+                                              'online')
                                             Align(
                                               alignment: AlignmentDirectional(
-                                                  0.81, -0.58),
-                                              child: Text(
-                                                getJsonField(
-                                                  editFEXGetDeviceResponse
-                                                      .jsonBody,
-                                                  r'''$.payload.carrier''',
-                                                ).toString(),
-                                                textAlign: TextAlign.start,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1,
+                                                  -0.2, -0.58),
+                                              child: Image.network(
+                                                'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fclipground.com%2Fimages%2Fgreen-check-mark-clipart-8.png&f=1&nofb=1&ipt=40a2473ca92d349321b8d868f7eb7afff88b202663da791605775961419a7182&ipo=images',
+                                                width: 20,
+                                                height: 20,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          if (GetDeviceCall.status(
+                                                editFEXGetDeviceResponse
+                                                    .jsonBody,
+                                              ) ==
+                                              'offline')
+                                            Align(
+                                              alignment: AlignmentDirectional(
+                                                  -0.2, -0.58),
+                                              child: Image.network(
+                                                'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fsweetclipart.com%2Fmultisite%2Fsweetclipart%2Ffiles%2Fx_mark_red_circle.png&f=1&nofb=1&ipt=954a6c5fbe995403917ad3ebb5725d2917a4c2f2d14b7c3175c68e2fb65e3af0&ipo=images',
+                                                width: 20,
+                                                height: 20,
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 2, 0, 2),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Align(
-                                        alignment:
-                                            AlignmentDirectional(-0.13, -0.32),
-                                        child: Text(
-                                          getJsonField(
-                                            editFEXGetDeviceResponse.jsonBody,
-                                            r'''$.payload.model''',
-                                          ).toString(),
-                                          textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1,
-                                        ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          1, 0, 0, 0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Align(
+                                            alignment: AlignmentDirectional(
+                                                0.09, -0.58),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(10, 0, 0, 0),
+                                              child: Text(
+                                                'Carrier: ',
+                                                textAlign: TextAlign.start,
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyText1
+                                                        .override(
+                                                          fontFamily: 'Outfit',
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        if (getJsonField(
+                                              editFEXGetDeviceResponse.jsonBody,
+                                              r'''$.payload.ip''',
+                                            ) !=
+                                            null)
+                                          Align(
+                                            alignment: AlignmentDirectional(
+                                                0.81, -0.58),
+                                            child: Text(
+                                              getJsonField(
+                                                editFEXGetDeviceResponse
+                                                    .jsonBody,
+                                                r'''$.payload.carrier''',
+                                              ).toString(),
+                                              textAlign: TextAlign.start,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 2, 0, 2),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment:
+                                          AlignmentDirectional(-0.13, -0.32),
+                                      child: Text(
+                                        getJsonField(
+                                          editFEXGetDeviceResponse.jsonBody,
+                                          r'''$.payload.model''',
+                                        ).toString(),
+                                        textAlign: TextAlign.start,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
@@ -1027,31 +1034,6 @@ class _EditFEXWidgetState extends State<EditFEXWidget> {
                           ],
                         ),
                       ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [],
-                      ),
-                      Expanded(
-                        child: FlutterFlowGoogleMap(
-                          controller: googleMapsController,
-                          onCameraIdle: (latLng) => googleMapsCenter = latLng,
-                          initialLocation: googleMapsCenter ??=
-                              LatLng(13.106061, -59.613158),
-                          markerColor: GoogleMarkerColor.violet,
-                          mapType: MapType.normal,
-                          style: GoogleMapStyle.silver,
-                          initialZoom: 15,
-                          allowInteraction: false,
-                          allowZoom: true,
-                          showZoomControls: true,
-                          showLocation: true,
-                          showCompass: false,
-                          showMapToolbar: true,
-                          showTraffic: false,
-                          centerMapOnMarkerTap: true,
-                        ),
-                      ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(25, 25, 25, 25),
                         child: Row(
@@ -1066,14 +1048,18 @@ class _EditFEXWidgetState extends State<EditFEXWidget> {
                                 children: [
                                   FFButtonWidget(
                                     onPressed: () async {
-                                      await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => EditFEXWidget(
-                                            fexSN: widget.fexSN,
-                                            token: widget.token,
+                                      context.pushNamed(
+                                        'editFEX',
+                                        queryParams: {
+                                          'fexSN': serializeParam(
+                                            widget.fexSN,
+                                            ParamType.String,
                                           ),
-                                        ),
+                                          'token': serializeParam(
+                                            widget.token,
+                                            ParamType.String,
+                                          ),
+                                        }.withoutNulls,
                                       );
                                     },
                                     text: 'Refresh',
@@ -1121,31 +1107,37 @@ class _EditFEXWidgetState extends State<EditFEXWidget> {
                                         );
                                         if (editFEXGetDeviceResponse
                                             .succeeded) {
-                                          await Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              type: PageTransitionType
-                                                  .topToBottom,
-                                              duration:
-                                                  Duration(milliseconds: 300),
-                                              reverseDuration:
-                                                  Duration(milliseconds: 300),
-                                              child: RebootConfPageWidget(
-                                                fexSN: widget.fexSN,
-                                                fexDescription:
-                                                    widget.fexDescription,
+                                          context.pushNamed(
+                                            'rebootConfPage',
+                                            queryParams: {
+                                              'fexSN': serializeParam(
+                                                widget.fexSN,
+                                                ParamType.String,
                                               ),
-                                            ),
+                                              'fexDescription': serializeParam(
+                                                widget.fexDescription,
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                            extra: <String, dynamic>{
+                                              kTransitionInfoKey:
+                                                  TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType
+                                                        .topToBottom,
+                                              ),
+                                            },
                                           );
                                         } else {
-                                          await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EditFEXWidget(
-                                                fexSN: '',
+                                          context.pushNamed(
+                                            'editFEX',
+                                            queryParams: {
+                                              'fexSN': serializeParam(
+                                                '',
+                                                ParamType.String,
                                               ),
-                                            ),
+                                            }.withoutNulls,
                                           );
                                         }
 

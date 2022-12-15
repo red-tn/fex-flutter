@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "647127841406",
+    "project_id": "fex-cloud",
+    "storage_bucket": "fex-cloud.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647127841406:android:9c790dff6b203b3fdab62f",
+        "android_client_info": {
+          "package_name": "FEX.red.CloudApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647127841406-ur7b8hq1endk235j7gtcjgc1a2rkgro3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "FEX.red.CloudApp",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "647127841406-2284oq97eoli5a6d0fc00op3vmii64v4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJDWarx1hyOiE4APYHdHkmq0VgIz-eABA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647127841406-2284oq97eoli5a6d0fc00op3vmii64v4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "647127841406-2l4ulnioq36ohbvj70td0qnfmf1l8oji.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "Robin.Do"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647127841406:android:6dbd1cfd1c4982b0dab62f",
+        "android_client_info": {
+          "package_name": "Robin.Do"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647127841406-2284oq97eoli5a6d0fc00op3vmii64v4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJDWarx1hyOiE4APYHdHkmq0VgIz-eABA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647127841406-2284oq97eoli5a6d0fc00op3vmii64v4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "647127841406-2l4ulnioq36ohbvj70td0qnfmf1l8oji.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "Robin.Do"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

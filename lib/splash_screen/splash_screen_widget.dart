@@ -2,12 +2,12 @@ import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../login/login_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreenWidget extends StatefulWidget {
   const SplashScreenWidget({Key? key}) : super(key: key);
@@ -57,10 +57,14 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).white,
@@ -87,7 +91,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
             ],
           ),
           Column(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -110,7 +114,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
                 ],
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 45, 0, 45),
+                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 200,
@@ -136,26 +140,27 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            duration: Duration(milliseconds: 300),
-                            reverseDuration: Duration(milliseconds: 300),
-                            child: LoginWidget(),
-                          ),
+                        context.pushNamed(
+                          'Login',
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.rightToLeft,
+                            ),
+                          },
                         );
                       },
-                      text: 'Get Started',
+                      text: 'Start',
                       icon: FaIcon(
                         FontAwesomeIcons.fireAlt,
                       ),
                       options: FFButtonOptions(
-                        width: 150,
-                        height: 150,
+                        width: 100,
+                        height: 100,
                         color: Color(0xFFBECDD9),
                         textStyle:
                             FlutterFlowTheme.of(context).subtitle2.override(

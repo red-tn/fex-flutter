@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/lat_lng.dart';
 
-class FFAppState {
+class FFAppState extends ChangeNotifier {
   static final FFAppState _instance = FFAppState._internal();
 
   factory FFAppState() {
@@ -18,9 +19,13 @@ class FFAppState {
 
   late SharedPreferences prefs;
 
-  String baseurl = 'https://fortiextender.forticloud.com';
+  String _baseurl = 'https://fortiextender.forticloud.com';
+  String get baseurl => _baseurl;
+  set baseurl(String _value) {
+    notifyListeners();
 
-  LatLng? latlong;
+    _baseurl = _value;
+  }
 }
 
 LatLng? _latLngFromString(String? val) {

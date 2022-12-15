@@ -4,6 +4,7 @@ import '../flutter_flow/flutter_flow_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class RebootConfPageWidget extends StatefulWidget {
   const RebootConfPageWidget({
@@ -25,7 +26,16 @@ class _RebootConfPageWidgetState extends State<RebootConfPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return FutureBuilder<ApiCallResponse>(
       future: GetDeviceCall.call(
         sn: widget.fexSN,
@@ -75,7 +85,7 @@ class _RebootConfPageWidgetState extends State<RebootConfPageWidget> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      Navigator.pop(context);
+                                      context.pop();
                                     },
                                     child: Icon(
                                       Icons.arrow_back_ios,
@@ -87,9 +97,8 @@ class _RebootConfPageWidgetState extends State<RebootConfPageWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 16, 0, 0),
                                     child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.75,
-                                      height: 50,
+                                      width: 350,
+                                      height: 70,
                                       constraints: BoxConstraints(
                                         maxWidth:
                                             MediaQuery.of(context).size.width,

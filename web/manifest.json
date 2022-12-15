@@ -1,6 +1,6 @@
 {
-    "name": "FortiAnalyzer Cloud",
-    "short_name": "FortiAnalyzer Cloud",
+    "name": "FEXCloudAPI",
+    "short_name": "FEXCloudAPI",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,4 +1,4 @@
-# FortiAnalyzer Cloud
+# FEXCloudAPI
 
 A new Flutter project.
 

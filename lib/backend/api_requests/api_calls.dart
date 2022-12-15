@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../../flutter_flow/flutter_flow_util.dart';
+import '../cloud_functions/cloud_functions.dart';
 
 import 'api_manager.dart';
 
@@ -12,21 +13,18 @@ class FexinventoryCall {
   static Future<ApiCallResponse> call({
     String? token = '',
     String? sn = '',
-  }) {
-    return ApiManager.instance.makeApiCall(
-      callName: 'fexinventory',
-      apiUrl: 'https://fortiextender.forticloud.com/fext/api/public/v1/devices',
-      callType: ApiCallType.GET,
-      headers: {
-        'Authorization': 'Token ${token}',
-        'Content-Type': 'application/json',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'FexinventoryCall',
+        'variables': {
+          'token': token,
+          'sn': sn,
+        },
       },
-      params: {
-        'sn': sn,
-      },
-      returnBody: true,
-      cache: false,
     );
+    return ApiCallResponse.fromCloudCallResponse(response);
   }
 
   static dynamic payloadresult(dynamic response) => getJsonField(
@@ -82,22 +80,20 @@ class GetDeviceCall {
     String? sn = '',
     double? longitude,
     double? latitude,
-  }) {
-    return ApiManager.instance.makeApiCall(
-      callName: 'getDevice',
-      apiUrl:
-          'https://fortiextender.forticloud.com/fext/api/public/v1/devices/${sn}',
-      callType: ApiCallType.GET,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Token ${token}',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'GetDeviceCall',
+        'variables': {
+          'token': token,
+          'sn': sn,
+          'longitude': longitude,
+          'latitude': latitude,
+        },
       },
-      params: {
-        'sn': sn,
-      },
-      returnBody: true,
-      cache: false,
     );
+    return ApiCallResponse.fromCloudCallResponse(response);
   }
 
   static dynamic status(dynamic response) => getJsonField(
@@ -150,5 +146,14 @@ String _serializeList(List? list) {
     return json.encode(list);
   } catch (_) {
     return '[]';
+  }
+}
+
+String _serializeJson(dynamic jsonVar) {
+  jsonVar ??= {};
+  try {
+    return json.encode(jsonVar);
+  } catch (_) {
+    return '{}';
   }
 }
